@@ -1,4 +1,4 @@
-module Control.Handler.Universal.Class where
+module Control.Monad.HReader.Class where
 
 import Data.HSet
 import Control.Monad.Cont

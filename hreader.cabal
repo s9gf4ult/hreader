@@ -34,5 +34,5 @@ library
                      , mtl
                      , transformers-base
 
-  exposed-modules:     Control.Handler.Universal
-                     , Control.Handler.Universal.Class
+  exposed-modules:     Control.Monad.HReader
+                     , Control.Monad.HReader.Class

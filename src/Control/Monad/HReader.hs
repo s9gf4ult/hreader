@@ -1,8 +1,8 @@
-module Control.Handler.Universal where
+module Control.Monad.HReader where
 
-import Control.Handler.Universal.Class
 import Control.Monad.Base
 import Control.Monad.Cont
+import Control.Monad.HReader.Class
 import Control.Monad.Morph
 import Control.Monad.Reader
 import Control.Monad.State
