@@ -14,10 +14,10 @@ import Control.Monad.Error
 
 
 
-class HasHSet m where
+class MonadHReader m where
   type HSetElements m :: [*]
   askHSet :: m (HSet (HSetElements m))
 
-instance (Monad m, HasHSet m) => HasHSet (ReaderT r m) where
+instance (Monad m, MonadHReader m) => MonadHReader (ReaderT r m) where
   type HSetElements (ReaderT r m) = HSetElements m
   askHSet = lift askHSet

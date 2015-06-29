@@ -35,7 +35,7 @@ instance (MonadReader r m) => MonadReader r (HReaderT els m) where
     lift $ do
       local f $ runUnversalT h ma
 
-instance (Monad m) => HasHSet (HReaderT els m) where
+instance (Monad m) => MonadHReader (HReaderT els m) where
   type HSetElements (HReaderT els m) = els
   askHSet = HReaderT ask
 
