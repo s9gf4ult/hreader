@@ -1,4 +1,4 @@
-name:                universal-handler
+name:                hreader
 version:             0.0.1
 
 synopsis: Generalization of newtype wrappers with all this
