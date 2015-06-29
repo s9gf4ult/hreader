@@ -20,6 +20,7 @@ library
 
   default-extensions: CPP
                     , DataKinds
+                    , FlexibleContexts
                     , FlexibleInstances
                     , GeneralizedNewtypeDeriving
                     , MultiParamTypeClasses
