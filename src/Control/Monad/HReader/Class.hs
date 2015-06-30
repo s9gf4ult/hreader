@@ -25,15 +25,17 @@ class (Monad m, Applicative m) => MonadHReader m where
   type HSetElements m :: [*]
   askHSet :: m (HSet (HSetElements m))
 
+-- | Ask arbitrary element of hset inside HReader
 haskM :: (MonadHReader m, Contains (HSetElements m) e)
       => m e
 haskM = hget <$> askHSet
 
+-- | Ask arbitrary labeled element of hset in HReader
 haskLabeledM :: (MonadHReader m, Contains (HSetElements m) (Labeled label e))
              => proxy label -> m e
 haskLabeledM p = hgetLabeled p <$> askHSet
 
-#define MHR(MONAD)                                \
+#define MHR(MONAD)                                        \
 instance (MonadHReader m) => MonadHReader (MONAD) where { \
   type HSetElements (MONAD) = HSetElements m ;            \
   askHSet = lift askHSet ;                                \

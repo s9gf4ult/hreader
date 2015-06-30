@@ -20,6 +20,8 @@ library
 
   default-extensions: CPP
                     , DataKinds
+                    , DeriveDataTypeable
+                    , DeriveGeneric
                     , FlexibleContexts
                     , FlexibleInstances
                     , GeneralizedNewtypeDeriving
@@ -29,6 +31,7 @@ library
                     , UndecidableInstances
 
   build-depends:       base  >= 4.7   && < 5
+                     , exceptions
                      , hset  >= 0.1.0 && < 1.0.0
                      , mmorph
                      , monad-control

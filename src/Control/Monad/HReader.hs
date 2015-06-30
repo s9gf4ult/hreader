@@ -1,6 +1,7 @@
 module Control.Monad.HReader where
 
 import Control.Monad.Base
+import Control.Monad.Catch
 import Control.Monad.Cont
 import Control.Monad.HReader.Class
 import Control.Monad.Morph
@@ -9,6 +10,8 @@ import Control.Monad.State
 import Control.Monad.Trans.Control
 import Control.Monad.Writer
 import Data.HSet
+import Data.Typeable
+import GHC.Generics
 
 #if MIN_VERSION_mtl(2, 2, 1)
 import Control.Monad.Except
@@ -18,9 +21,11 @@ import Control.Monad.Error
 
 newtype HReaderT els m a = HReaderT
     { unHReaderT :: ReaderT (HSet els) m a
-    } deriving ( Functor, Applicative, Monad
+    } deriving ( Functor, Applicative, Monad, MonadIO
                , MonadError e, MonadCont, MonadWriter w
-               , MonadState s, MonadBase b )
+               , MonadState s, MonadBase b
+               , MonadThrow, MonadCatch
+               , Typeable, Generic  )
 
 runUnversalT :: HSet els -> HReaderT els m a -> m a
 runUnversalT h (HReaderT r) = runReaderT r h
