@@ -7,8 +7,6 @@ import Data.HSet
 
 #if MIN_VERSION_mtl(2, 2, 1)
 import Control.Monad.Except
-#else
-import Control.Monad.Error
 #endif
 
 import qualified Control.Monad.RWS.Lazy   as RWSL

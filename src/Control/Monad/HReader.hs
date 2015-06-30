@@ -55,5 +55,21 @@ instance (MonadBaseControl b m) => MonadBaseControl b (HReaderT els m) where
     liftBaseWith $ \runInBase -> action (runInBase . unHReaderT)
   restoreM = HReaderT . restoreM
 #else
+instance MonadTransControl (HReaderT els) where
+  newtype StT (HReaderT els) a
+    = HRtTT
+      { unHRtTT :: StT (ReaderT (HSet els)) a
+      }
+  liftWith action = HReaderT $ do
+    liftWith $ \runTrans -> do
+      action ((HRtMT `liftM`) . runTrans . unHReaderT)
+  restoreT st = HReaderT $ restoreT $ unHRtTT `liftM` st
 
+instance (MonadBaseControl b m) => MonadBaseControl b (HReaderT els m) where
+  newtype StM (HReaderT els m) a
+    = HRtMT (StM (ReaderT (HSet els) m) a)
+  liftBaseWith action = HReaderT $ do
+    liftBaseWith $ \runInBase -> do
+      action ((HRtMT `liftM`) . runInBase . unHReaderT)
+  restoreM (HRtMT st) = HReaderT $ restoreM st
 #endif
