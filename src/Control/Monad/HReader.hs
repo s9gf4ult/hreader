@@ -1,4 +1,8 @@
-module Control.Monad.HReader where
+module Control.Monad.HReader
+       ( HReaderT(..)
+       , runHReaderT
+       , module Control.Monad.HReader.Class
+       ) where
 
 import Control.Monad.Base
 import Control.Monad.Catch
@@ -27,8 +31,8 @@ newtype HReaderT els m a = HReaderT
                , MonadThrow, MonadCatch
                , Typeable, Generic  )
 
-runUnversalT :: HSet els -> HReaderT els m a -> m a
-runUnversalT h (HReaderT r) = runReaderT r h
+runHReaderT :: HSet els -> HReaderT els m a -> m a
+runHReaderT h (HReaderT r) = runReaderT r h
 
 instance MonadTrans (HReaderT els) where
   lift = HReaderT . lift
@@ -38,7 +42,7 @@ instance (MonadReader r m) => MonadReader r (HReaderT els m) where
   local f ma = HReaderT $ do
     h <- ask
     lift $ do
-      local f $ runUnversalT h ma
+      local f $ runHReaderT h ma
 
 instance (Monad m) => MonadHReader (HReaderT els m) where
   type HSetElements (HReaderT els m) = els

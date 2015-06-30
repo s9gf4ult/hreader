@@ -1,4 +1,8 @@
-module Control.Monad.HReader.Class where
+module Control.Monad.HReader.Class
+       ( MonadHReader(..)
+       , haskM
+       , haskLabeledM
+       ) where
 
 import Control.Monad.Cont
 import Control.Monad.List
@@ -17,6 +21,7 @@ import qualified Control.Monad.Writer.Lazy   as WL
 import qualified Control.Monad.Writer.Strict as WS
 
 
+-- | Monad which is a reader of HSet (or just can construct it).
 #if MIN_VERSION_base(4, 8, 0)
 class (Monad m) => MonadHReader m where
 #else
