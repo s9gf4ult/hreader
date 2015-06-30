@@ -49,7 +49,7 @@ instance (MonadReader r m) => MonadReader r (HReaderT els m) where
     lift $ do
       local f $ runHReaderT h ma
 
-instance (Monad m) => MonadHReader (HReaderT els m) where
+instance (Monad m, Applicative m) => MonadHReader (HReaderT els m) where
   type HSetElements (HReaderT els m) = els
   askHSet = HReaderT ask
 

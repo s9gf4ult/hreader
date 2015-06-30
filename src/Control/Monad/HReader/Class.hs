@@ -29,21 +29,17 @@ import qualified Control.Monad.Writer.Strict as WS
 
 
 -- | Monad which is a reader of HSet (or just can construct it).
-#if MIN_VERSION_base(4, 8, 0)
-class (Monad m) => MonadHReader m where
-#else
 class (Monad m, Applicative m) => MonadHReader m where
-#endif
   type HSetElements m :: [*]
   askHSet :: m (HSet (HSetElements m))
 
 -- | Ask arbitrary element of hset inside HReader
-haskM :: (MonadHReader m, Contains (HSetElements m) e)
+haskM :: (MonadHReader m, HGetable (HSetElements m) e)
       => m e
 haskM = hget <$> askHSet
 
 -- | Ask arbitrary labeled element of hset in HReader
-haskLabeledM :: (MonadHReader m, Contains (HSetElements m) (Labeled label e))
+haskLabeledM :: (MonadHReader m, HGetable (HSetElements m) (Labeled label e))
              => proxy label -> m e
 haskLabeledM p = hgetLabeled p <$> askHSet
 
