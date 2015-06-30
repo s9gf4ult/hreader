@@ -4,6 +4,7 @@ module Control.Monad.HReader.Class
        , haskLabeledM
        ) where
 
+
 import Control.Monad.Cont
 import Control.Monad.List
 import Control.Monad.Reader
@@ -12,6 +13,12 @@ import Data.HSet
 #if MIN_VERSION_mtl(2, 2, 1)
 import Control.Monad.Except
 #endif
+
+#if !(MIN_VERSION_base(4,8,0))
+import Control.Applicative
+import Data.Monoid
+#endif
+
 
 import qualified Control.Monad.RWS.Lazy   as RWSL
 import qualified Control.Monad.RWS.Strict as RWSS

@@ -23,6 +23,11 @@ import Control.Monad.Except
 import Control.Monad.Error
 #endif
 
+#if !(MIN_VERSION_base(4,8,0))
+import Control.Applicative
+#endif
+
+
 newtype HReaderT els m a = HReaderT
     { unHReaderT :: ReaderT (HSet els) m a
     } deriving ( Functor, Applicative, Monad, MonadIO
