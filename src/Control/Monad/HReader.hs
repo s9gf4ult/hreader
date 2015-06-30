@@ -62,7 +62,7 @@ instance MonadTransControl (HReaderT els) where
       }
   liftWith action = HReaderT $ do
     liftWith $ \runTrans -> do
-      action ((HRtMT `liftM`) . runTrans . unHReaderT)
+      action ((HRtTT `liftM`) . runTrans . unHReaderT)
   restoreT st = HReaderT $ restoreT $ unHRtTT `liftM` st
 
 instance (MonadBaseControl b m) => MonadBaseControl b (HReaderT els m) where
