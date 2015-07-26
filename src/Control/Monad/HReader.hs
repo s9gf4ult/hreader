@@ -41,16 +41,16 @@ newtype HReaderT els m a = HReaderT
 runHReaderT :: HSet els -> HReaderT els m a -> m a
 runHReaderT h (HReaderT r) = runReaderT r h
 
--- | Take subset of elements of some HSet and run nested `HReaderT`
--- with this subhset
+-- | Run a local reader with a subset of HSet elements.
 subHSetHReaderT :: ( Monad m, SubHSetable els subels eq )
                 => HReaderT subels m a -> HReaderT els m a
 subHSetHReaderT hr = do
   hset <- askHSet
   lift $ runHReaderT (subHSet hset) hr
 
-{- | Convenient variant of 'subHSetHReaderT' with proxy type to make
-it posible to run nested HReaderT in place without declarating type, e.g.
+{- | Convenient variant of 'subHSetHReaderT' with proxy type to make it
+posible to run nested HReaderT in place without complex type
+declarations, e.g.
 
 @
 narrowHReaderT (Proxy :: Proxy '[String, Int]) $ do
