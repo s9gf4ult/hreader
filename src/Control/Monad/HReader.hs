@@ -1,6 +1,8 @@
 module Control.Monad.HReader
        ( HReaderT(..)
        , runHReaderT
+       , subHSetHReaderT
+       , narrowHReaderT
        , module Control.Monad.HReader.Class
        ) where
 
@@ -27,7 +29,7 @@ import Control.Monad.Error
 import Control.Applicative
 #endif
 
-
+-- | Monad transformer which is like 'ReaderT' but for `HSet` only
 newtype HReaderT els m a = HReaderT
     { unHReaderT :: ReaderT (HSet els) m a
     } deriving ( Functor, Applicative, Monad, MonadIO
@@ -38,6 +40,30 @@ newtype HReaderT els m a = HReaderT
 
 runHReaderT :: HSet els -> HReaderT els m a -> m a
 runHReaderT h (HReaderT r) = runReaderT r h
+
+-- | Take subset of elements of some HSet and run nested `HReaderT`
+-- with this subhset
+subHSetHReaderT :: ( Monad m, SubHSetable els subels eq )
+                => HReaderT subels m a -> HReaderT els m a
+subHSetHReaderT hr = do
+  hset <- askHSet
+  lift $ runHReaderT (subHSet hset) hr
+
+{- | Convenient variant of 'subHSetHReaderT' with proxy type to make
+it posible to run nested HReaderT in place without declarating type, e.g.
+
+@
+narrowHReaderT (Proxy :: Proxy '[String, Int]) $ do
+  doThingsWithString
+  doThingsWithInt
+  doThingsWithOtherStuff -- < this will not compile
+@
+
+-}
+
+narrowHReaderT :: ( Monad m, SubHSetable els subels eq )
+               => proxy subels -> HReaderT subels m a -> HReaderT els m a
+narrowHReaderT _ = subHSetHReaderT
 
 instance MonadTrans (HReaderT els) where
   lift = HReaderT . lift
