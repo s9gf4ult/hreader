@@ -1,6 +1,6 @@
 name:                hreader
-version:             0.2.0
-synopsis:            Generalization of MonadReader and ReaderT
+version:             1.0.0
+synopsis:            Generalization of MonadReader and ReaderT using hset
 license:             BSD3
 license-file:        LICENSE
 author:              Aleksey Uimanov
