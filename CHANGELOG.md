@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.0.0
+### Added
+* `MHRElemsConstraint`
+### Changed
+* depenes on `hset` > 2.0.0
+* use `tagged` instead of Labeled
+* some things renamed, so this version is not backwards compatible
+
 ## 0.2.0
 ### Added
 * `subHSetHReaderT` run a local reader with a subset of HSet elements

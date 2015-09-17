@@ -1,6 +1,6 @@
 name:                hreader
-version:             0.2.0
-synopsis:            Generalization of MonadReader and ReaderT
+version:             1.0.0
+synopsis:            Generalization of MonadReader and ReaderT using hset
 license:             BSD3
 license-file:        LICENSE
 author:              Aleksey Uimanov
@@ -21,6 +21,7 @@ library
   ghc-options:         -Wall
 
   default-extensions: CPP
+                    , ConstraintKinds
                     , DataKinds
                     , DeriveDataTypeable
                     , DeriveGeneric
@@ -30,14 +31,16 @@ library
                     , MultiParamTypeClasses
                     , StandaloneDeriving
                     , TypeFamilies
+                    , TypeOperators
                     , UndecidableInstances
 
   build-depends:       base  >= 4.7   && < 5
                      , exceptions
-                     , hset  >= 1.1.0 && < 2.0.0
+                     , hset  >= 2.0.0 && < 3.0.0
                      , mmorph
                      , monad-control
                      , mtl
+                     , tagged
                      , transformers-base
 
   exposed-modules:     Control.Monad.HReader

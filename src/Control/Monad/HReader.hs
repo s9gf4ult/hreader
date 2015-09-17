@@ -42,7 +42,7 @@ runHReaderT :: HSet els -> HReaderT els m a -> m a
 runHReaderT h (HReaderT r) = runReaderT r h
 
 -- | Run a local reader with a subset of HSet elements.
-subHSetHReaderT :: ( Monad m, SubHSetable els subels eq )
+subHSetHReaderT :: (Monad m, SubHSettable els subels)
                 => HReaderT subels m a -> HReaderT els m a
 subHSetHReaderT hr = do
   hset <- askHSet
@@ -61,7 +61,7 @@ narrowHReaderT (Proxy :: Proxy '[String, Int]) $ do
 
 -}
 
-narrowHReaderT :: ( Monad m, SubHSetable els subels eq )
+narrowHReaderT :: (Monad m, SubHSettable els subels)
                => proxy subels -> HReaderT subels m a -> HReaderT els m a
 narrowHReaderT _ = subHSetHReaderT
 
@@ -76,7 +76,7 @@ instance (MonadReader r m) => MonadReader r (HReaderT els m) where
       local f $ runHReaderT h ma
 
 instance (Monad m, Applicative m) => MonadHReader (HReaderT els m) where
-  type HSetElements (HReaderT els m) = els
+  type MHRElements (HReaderT els m) = els
   askHSet = HReaderT ask
 
 deriving instance MFunctor (HReaderT els)
