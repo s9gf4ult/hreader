@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.1
+### Changed
+* fix `Applicative` constraints for base < 4.8
+
 ## 1.0.0
 ### Added
 * `MHRElemsConstraint`
