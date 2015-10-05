@@ -1,5 +1,5 @@
 name:                hreader
-version:             1.0.0
+version:             1.0.1
 synopsis:            Generalization of MonadReader and ReaderT using hset
 license:             BSD3
 license-file:        LICENSE
