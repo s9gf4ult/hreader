@@ -10,13 +10,11 @@ type ListB = '[Int, Bool]
 
 type MonadA m =
   ( MHRElemsConstraint m ListA
-  , MonadHReader m
   , MonadBase IO m
   )
 
 type MonadB m =
   ( MHRElemsConstraint m ListB
-  , MonadHReader m
   , MonadBase IO m
   )
 
@@ -60,8 +58,24 @@ runB h = do
   print "performing some IO actions around B"
   runHReaderT h monadB
 
+runA :: (AllHGettable els ListA) => HSet els -> IO ()
+runA h = do
+  print "performing some IO actions around A"
+  runHReaderT h monadA
+
+runAinB :: (MonadB m) => m ()
+runAinB = do
+  liftBase $ print "running A in B"
+  h <- askHSet
+  let c = 'b'
+      hb :: HSet ListB
+      hb = subHSet h
+      ha = HSCons c hb
+  liftBase $ runA ha
+
 runBinA :: (MonadA m) => m ()
 runBinA = do
+  liftBase $ print "running B in A"
   h <- askHSet
   liftBase $ runB h
 
@@ -76,3 +90,4 @@ main = do
   runHReaderT ha monadB
   runHReaderT hb monadB
   runHReaderT ha runBinA
+  runHReaderT hb runAinB
