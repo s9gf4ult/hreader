@@ -34,7 +34,7 @@ import qualified Control.Monad.Writer.Strict  as WS
 -- from type list __[Int, Bool]__. Usable to reuse type lists for
 -- constraints and concrete HSet.
 type family MHRElemsConstraint (m :: * -> *) (els :: [*]) :: Constraint where
-  MHRElemsConstraint m '[] = ()
+  MHRElemsConstraint m '[] = (MonadHReader m)
   MHRElemsConstraint m (e ': els) = (HGettable (MHRElements m) e, MHRElemsConstraint m els)
 
 -- | Monad which is a reader of HSet (or just can construct it).

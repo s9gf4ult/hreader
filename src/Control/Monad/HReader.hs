@@ -35,7 +35,7 @@ newtype HReaderT els m a = HReaderT
     } deriving ( Functor, Applicative, Monad, MonadIO
                , MonadError e, MonadCont, MonadWriter w
                , MonadState s, MonadBase b
-               , MonadThrow, MonadCatch
+               , MonadThrow, MonadCatch, MonadMask
                , Typeable, Generic  )
 
 runHReaderT :: HSet els -> HReaderT els m a -> m a
