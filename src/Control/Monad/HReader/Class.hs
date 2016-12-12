@@ -10,6 +10,8 @@ import Control.Monad.Cont
 import Control.Monad.List
 import Control.Monad.Reader
 import Control.Monad.Trans.Control
+import Control.Monad.Trans.Identity
+import Control.Monad.Trans.Maybe
 import Data.HSet
 import Data.Tagged
 import GHC.Exts
@@ -58,8 +60,10 @@ instance (MonadHReader m) => MonadHReader (MONAD) where { \
   hlocal f ma = liftThrough (hlocal f) ma  ; \
   }
 
+MHR(IdentityT m)
 MHR(ReaderT r m)
 MHR(ListT m)
+MHR(MaybeT m)
 
 #if MIN_VERSION_mtl(2, 2, 1)
 MHR(ExceptT e m)
