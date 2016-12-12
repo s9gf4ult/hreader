@@ -1,5 +1,3 @@
-{-# LANGUAGE InstanceSigs #-}
-
 module Control.Monad.HReader
        ( HReaderT(..)
        , runHReaderT
