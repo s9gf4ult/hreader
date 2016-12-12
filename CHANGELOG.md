@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.1.0
+### Added
+* instances of `MonadHReader` for `MaybeT` and `IdentityT`
+* method 'hlocal' in `MonadHReader`
+
 ## 1.0.2
 ### Added
 * added forgotten `MonadMask` instance
