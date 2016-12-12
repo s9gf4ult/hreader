@@ -41,6 +41,11 @@ type family MHRElemsConstraint (m :: * -> *) (els :: [*]) :: Constraint where
 class (Monad m, Applicative m) => MonadHReader m where
   type MHRElements m :: [*]
   askHSet :: m (HSet (MHRElements m))
+  hlocal
+    :: MHRElemsConstraint m els
+    => (HSet els -> HSet els)
+    -> m a
+    -> m a
 
 -- | Ask arbitrary element of hset inside HReader
 hask :: (MonadHReader m, HGettable (MHRElements m) e)
@@ -57,9 +62,11 @@ haskTagged p = hgetTagged p <$> askHSet
 instance (MonadHReader m) => MonadHReader (MONAD) where { \
   type MHRElements (MONAD) = MHRElements m ;            \
   askHSet = lift askHSet ;                                \
+  hlocal = undefined ; \
   }
 
-MHR(ReaderT r m)
+-- MHR(ReaderT r m)
+
 MHR(ContT r m)
 MHR(ListT m)
 
@@ -73,15 +80,19 @@ MHR(SS.StateT s m)
 instance (MonadHReader m, Monoid w) => MonadHReader (WL.WriterT w m) where
   type MHRElements (WL.WriterT w m) = MHRElements m
   askHSet = lift askHSet
+  hlocal = undefined
 
 instance (MonadHReader m, Monoid w) => MonadHReader (WS.WriterT w m) where
   type MHRElements (WS.WriterT w m) = MHRElements m
   askHSet = lift askHSet
+  hlocal = undefined
 
 instance (MonadHReader m, Monoid w) => MonadHReader (RWSL.RWST r w s m) where
   type MHRElements (RWSL.RWST r w s m) = MHRElements m
   askHSet = lift askHSet
+  hlocal = undefined
 
 instance (MonadHReader m, Monoid w) => MonadHReader (RWSS.RWST r w s m) where
   type MHRElements (RWSS.RWST r w s m) = MHRElements m
   askHSet = lift askHSet
+  hlocal = undefined
