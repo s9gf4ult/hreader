@@ -41,6 +41,7 @@ library
                      , monad-control
                      , mtl
                      , tagged
+                     , transformers
                      , transformers-base
 
   exposed-modules:     Control.Monad.HReader

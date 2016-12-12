@@ -1,3 +1,5 @@
+{-# LANGUAGE InstanceSigs #-}
+
 module Control.Monad.HReader
        ( HReaderT(..)
        , runHReaderT
@@ -18,6 +20,8 @@ import Control.Monad.Writer
 import Data.HSet
 import Data.Typeable
 import GHC.Generics
+
+import qualified Control.Monad.Trans.Reader as Reader
 
 #if MIN_VERSION_mtl(2, 2, 1)
 import Control.Monad.Except
@@ -78,6 +82,7 @@ instance (MonadReader r m) => MonadReader r (HReaderT els m) where
 instance (Monad m, Applicative m) => MonadHReader (HReaderT els m) where
   type MHRElements (HReaderT els m) = els
   askHSet = HReaderT ask
+  hlocal f (HReaderT r) = HReaderT $ Reader.local f r
 
 deriving instance MFunctor (HReaderT els)
 deriving instance MMonad (HReaderT els)
