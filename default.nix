@@ -11,11 +11,13 @@ let
   #   niv add input-output-hk/haskell.nix -n haskellNix
 
   # Import nixpkgs and pass the haskell.nix provided nixpkgsArgs
+in {nixpkgs ? haskellNix.sources.nixpkgs-unstable}:
+let
   pkgs = import
     # haskell.nix provides access to the nixpkgs pins which are used by our CI,
     # hence you will be more likely to get cache hits when using these.
     # But you can also just use your own, e.g. '<nixpkgs>'.
-    haskellNix.sources.nixpkgs-unstable
+    nixpkgs
     # These arguments passed to nixpkgs, include some patches and also
     # the haskell.nix functionality itself as an overlay.
     haskellNix.nixpkgsArgs;
@@ -26,5 +28,5 @@ in pkgs.haskell-nix.project {
     src = ./.;
   };
   # Specify the GHC version to use.
-  compiler-nix-name = "ghc925"; # Not required for `stack.yaml` based projects.
+  compiler-nix-name = "ghc963"; # Not required for `stack.yaml` based projects.
 }

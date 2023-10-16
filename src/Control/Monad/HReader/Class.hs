@@ -7,7 +7,9 @@ module Control.Monad.HReader.Class
 
 
 import Control.Monad.Cont
+#if !(MIN_VERSION_mtl(2, 3, 0))
 import Control.Monad.List
+#endif
 import Control.Monad.Reader
 import Control.Monad.Trans.Control
 import Control.Monad.Trans.Identity
@@ -62,7 +64,9 @@ instance (MonadHReader m) => MonadHReader (MONAD) where { \
 
 MHR(IdentityT m)
 MHR(ReaderT r m)
+#if !(MIN_VERSION_mtl(2, 3, 0))
 MHR(ListT m)
+#endif
 MHR(MaybeT m)
 
 #if MIN_VERSION_mtl(2, 2, 1)
