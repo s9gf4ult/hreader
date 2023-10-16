@@ -3,3 +3,5 @@ dist
 cabal.sandbox.config
 TAGS
 .stack-work
+dist-newstyle
+result
