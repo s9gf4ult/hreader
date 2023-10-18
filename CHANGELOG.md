@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.1.1
+### Fixed
+* Compatibility with mtl-2.3 and hence newer GHC versions
+* Migrate to Github
+
 ## 1.1.0
 ### Added
 * instances of `MonadHReader` for `MaybeT` and `IdentityT`
